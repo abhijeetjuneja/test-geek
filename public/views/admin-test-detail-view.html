@@ -1,6 +1,6 @@
 <div class="container-fluid user-dashboard">
 	<div class="row">
-		<div class="col-md-4 offset-md-1 text-center dashboard" style="padding-right: 0;padding-left: 0;margin-bottom: 5vh;margin-top: 5vh;">
+		<div class="col-md-4 offset-md-1 text-center dashboard wow animated zoomIn" style="padding-right: 0;padding-left: 0;margin-bottom: 5vh;margin-top: 5vh;">
 			<div class="container-fluid" style="background-color:#4a4b6f;color:white;padding-top: 2vh;padding-bottom: 2vh;">
 		        <strong>
 		            <h3>{{test.test.testName}} Test</h3>
@@ -14,7 +14,7 @@
 			<button class="btn btn-success" data-toggle="modal" data-target="#modalCreateQuestionForm"><i class="fa fa-plus" aria-hidden="true"></i> Add Questions</button>
 		</div>
 		<div class="col-md-6 offset-md-1 dashboard" style="padding-left: 0;padding-right: 0;margin-bottom: 5vh;margin-top: 5vh;">
-			<div class="container-fluid" style="padding-left: 0;padding-right: 0;" ng-repeat="question in filtered = (test.test.questions) | startFrom:test.currentPage*test.pageSize | limitTo:test.pageSize " ng-if="test.test.questions.length != 0">
+			<div class="container-fluid wow animated zoomIn" style="padding-left: 0;padding-right: 0;" ng-repeat="question in filtered = (test.test.questions) | startFrom:test.currentPage*test.pageSize | limitTo:test.pageSize " ng-if="test.test.questions.length != 0">
 				<strong>
 					<div class="container-fluid" style="background-color:#4a4b6f;color:white;padding-top: 2vh;padding-bottom: 2vh;">
 				        <h4 style="padding-left: 15px;">Q.{{$index+1}} ) {{question.question}}</h4>
