@@ -82,7 +82,7 @@ app.controller('mainController',['userService','authService','tokenService','$lo
                     main.name= data.data.firstName + ' ' + data.data.lastName;
                     console.log(data.data);
                     main.email=data.data.email;
-                    if(main.email == 'admin@testgeek.com')
+                    if(main.email == 'admin@geektest.com')
                         main.admin = true;
                     else
                         main.admin = false;

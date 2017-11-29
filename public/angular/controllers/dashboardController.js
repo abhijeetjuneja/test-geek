@@ -231,7 +231,7 @@ app.controller('dashboardController',['$http','userService','$location','authSer
             main.email = data.data.email;
 
             //Assign admin or user
-            if(main.email == 'admin@testgeek.com')
+            if(main.email == 'admin@geektest.com')
                 main.admin = true;
             else
                 main.admin = false;
