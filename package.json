@@ -1,6 +1,11 @@
 {
-  "name": "node-rest-auth",
-  "main": "server.js",
+  "name": "test",
+  "version": "1.0.0",
+  "description": "Test for Geeks",
+  "scripts": {
+    "deploy": "npm test && git push heroku master",
+    "start": "node server.js"
+  },
   "dependencies": {
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.9.2",
@@ -24,5 +29,10 @@
     "passport-google-oauth":"latest",
     "express-session":"latest",
     "lodash":"latest"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": "6.11.0",
+    "npm": "3.10.10"
   }
 }
