@@ -39,7 +39,7 @@ app.use(function(req,res,next){
 });
 
 
-mongoose.connect("mongodb://abhijeetjuneja:ajAJ@123@ds123896.mlab.com:23896/livetesttakingsystem");
+mongoose.connect("mongodb://abhijeetjuneja:abcABC1234@ds123896.mlab.com:23896/livetesttakingsystem");
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, '#MongoDB - connection error'));
