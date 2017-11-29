@@ -176,7 +176,7 @@ module.exports.controllerFunction = function(app) {
                     res.json(myResponse);                                                
                 }
                 else{
-                    var myResponse = responseGenerator.generate(false,'Answer created successfully',200,null,null);
+                    var myResponse = responseGenerator.generate(false,'Answer created successfully',200,null,newAnswer);
                     console.log(myResponse);
                     res.json(myResponse);                          
                 }
