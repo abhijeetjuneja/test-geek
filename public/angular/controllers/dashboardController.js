@@ -114,7 +114,7 @@ app.controller('dashboardController',['$http','userService','$location','authSer
         main.drawGraph();
         setTimeout(function(){
             $(window).trigger('resize');
-        },500);
+        },1000);
     };
     
 
