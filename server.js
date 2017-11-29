@@ -8,7 +8,7 @@ var mongoose    = require('mongoose');
 var passport	= require('passport');
 var responseGenerator = require('./libs/responseGenerator');
 var socialPassport = require('./middlewares/passport')(app, passport);
-var port        = process.env.PORT || 3000;
+
 var path = require ('path');
 var cors = require('cors')
 app.use(express.static(path.join(__dirname, '/public')));
@@ -38,11 +38,11 @@ app.use(function(req,res,next){
   next();
 });
 
-//Set db path
-var dbPath  = "mongodb://abhijeetjuneja:ajAJ@123@ds123896.mlab.com:23896/livetesttakingsystem";
 
-// command to connect with database
-db = mongoose.connect(dbPath);
+mongoose.connect("mongodb://abhijeetjuneja:ajAJ@123@ds123896.mlab.com:23896/livetesttakingsystem");
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, '#MongoDB - connection error'));
 
 //Open mongoose connection
 mongoose.connection.once('open', function() {
@@ -96,7 +96,7 @@ app.use(function(err,req,res,next){
     }  
 });
  
- 
+var port = process.env.PORT || 3000;
 // Start the server
 app.listen(port,function(){
     console.log("Server running on port "+port);
