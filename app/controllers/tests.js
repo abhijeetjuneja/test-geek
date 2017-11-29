@@ -370,6 +370,7 @@ module.exports.controllerFunction = function(app) {
                     } else{
                         var myResponse = responseGenerator.generate(false,"Successfully deleted test and Questions",200,null,null);
                         console.log(myResponse);
+                        res.json(myResponse);
                     }
                 });
             }
