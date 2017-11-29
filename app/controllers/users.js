@@ -22,7 +22,7 @@ module.exports.controllerFunction = function(app) {
     userRouter.get('/all',function(req,res){
 
         //begin user find
-        userModel.find({}).select("email firstName lastName mobileNumber").exec(function(err,allUsers){
+        userModel.find({}).select("email firstName lastName mobileNumber joined").exec(function(err,allUsers){
             if(err){
                 var myResponse = responseGenerator.generate(true,"some error",err.code,null,null);          
                 res.json(myResponse);
