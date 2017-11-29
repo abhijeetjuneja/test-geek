@@ -39,7 +39,7 @@ app.use(function(req,res,next){
 });
 
 //Set db path
-var dbPath  = "mongodb://localhost/test";
+var dbPath  = "mongodb://abhijeetjuneja:ajAJ@123@ds123896.mlab.com:23896/livetesttakingsystem";
 
 // command to connect with database
 db = mongoose.connect(dbPath);

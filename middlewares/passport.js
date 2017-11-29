@@ -39,7 +39,7 @@ module.exports = function(app,passport){
     passport.use(new FacebookStrategy({
         clientID: '522108081458087',
         clientSecret: '732c7ea2bfe0e95ef8d72b504d3d72fb',
-        callbackURL: "http://localhost:3000/auth/facebook/callback",
+        callbackURL: "https://pacific-brook-33516.herokuapp.com/auth/facebook/callback",
         profileFields: ['id', 'displayName', 'email']
     },
     function(accessToken, refreshToken, profile, done) {    
@@ -71,7 +71,7 @@ module.exports = function(app,passport){
     passport.use(new GoogleStrategy({
         clientID: '14943672543-0moal3p6iindpba8i5uk6v31bnqpn7r6.apps.googleusercontent.com',
         clientSecret: 'tF-RAAs9xZWxhzF2I8VNJ3TY',
-        callbackURL: "http://localhost:3000/auth/google/callback"
+        callbackURL: "https://pacific-brook-33516.herokuapp.com/auth/google/callback"
       },
       function(accessToken, refreshToken, profile, done) {
 
