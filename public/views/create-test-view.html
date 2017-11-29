@@ -1,0 +1,102 @@
+<!-- Create a test Form -->
+
+<div class="container-fluid test-create" ng-if="!test.testSubmitted">
+	<div class="row">
+		<div class="col-xs-12 col-lg-6 test-form">
+		<form name="testForm" ng-submit="test.createTest(testData,testForm.$valid);" novalidate>
+		    <h4 class="h5 text-center mb-4">Test Creation</h4>
+
+		    <div class="md-form" ng-class="{ 'success':(testForm.testName.$valid && !testForm.testName.$pristine), 'error':(!testForm.testName.$valid && !testForm.testName.$pristine) || (!testForm.testName.$valid && testForm.$submitted)}">
+		        <i class="fa fa-user prefix grey-text"></i>
+		        <input type="text" id="orangeForm-name" class="form-control validate"  name="testName" ng-model="test.testData.testName" required>
+		        <label for="orangeForm-name">Test Name</label>
+
+		        <!-- Error message if not entered-->
+		        <p class="help-block" ng-show="((!testForm.testName.$pristine && testForm.testName.$error.required) || (testForm.$submitted && testForm.testName.$error.required))">Please Enter your Test Name</p>
+		    </div>
+
+		    <br>
+
+		    <div class="form-group" ng-class="{ 'success':(testForm.testCategory.$valid && !testForm.testCategory.$pristine), 'error':(!testForm.testCategory.$valid && !testForm.testCategory.$pristine) || (!testForm.testCategory.$valid && testForm.$submitted)}">
+
+		    	<i class="fa fa-user fa-2x prefix grey-text" style="padding-right: 1.5rem;"></i><label for="testCategory" class="grey-text">Category</label>
+		        <select class="form-control  validate test-select" id="testCategory" name="testCategory"  ng-model="test.testData.testCategory" required>
+			        <option value="Web">Web</option>
+			        <option value="Database">Database</option>
+			        <option value="Programming">Programming</option>
+			        <option value="Aptitude">Aptitude</option>
+			        <option value="General Knowledge">General Knowledge</option>
+			        <option value="Machine Learning">Machine Learning</option>
+				</select>
+
+				<!-- Error message if not entered-->
+				<p class="help-block" ng-show="((!testForm.testCategory.$pristine && testForm.testCategory.$error.required) || (testForm.$submitted && testForm.testCategory.$error.required))">* Please Enter your Test Category</p>
+				
+		    </div>
+
+		    <br>
+
+		    
+		    <div class="md-form" ng-class="{ 'success':(testForm.testDescription.$valid && !testForm.testDescription.$pristine), 'error':(!testForm.testDescription.$valid && !testForm.testDescription.$pristine) || (!testForm.testDescription.$valid && testForm.$submitted)}">
+		        <i class="fa fa-lock prefix grey-text"></i>
+		        <input type="text" id="orangeForm-pass" class="form-control validate" name="testDescription" ng-model="test.testData.testDescription" required>
+		        <label for="orangeForm-pass">Test Description</label>
+
+		        <!-- Error message if not entered-->
+		        <p class="help-block" ng-show="((!testForm.testDescription.$pristine && testForm.testDescription.$error.required) || (testForm.$submitted && testForm.testDescription.$error.required))">* Please Enter your test Description</p>
+		    </div>
+
+		    <div class="md-form" ng-class="{ 'success':(testForm.marksPerQuestion.$valid && !testForm.marksPerQuestion.$pristine), 'error':(!testForm.marksPerQuestion.$valid && !testForm.marksPerQuestion.$pristine) || (!testForm.marksPerQuestion.$valid && testForm.$submitted)}">
+		        <i class="fa fa-lock prefix grey-text"></i>
+		        <input type="number" id="orangeForm-pass" class="form-control validate" name="marksPerQuestion" ng-model="test.testData.marksPerQuestion" min="1" max="9999" maxlength="4" oninput="this.value=this.value.slice(0,this.maxLength||1/1);this.value=(this.value   < 1) ? (1/1) : this.value;" required>
+		        <label for="orangeForm-pass">Marks Per Question</label>
+
+		        <!-- Error message if not entered-->
+		        <p class="help-block" ng-show="((!testForm.marksPerQuestion.$pristine && testForm.marksPerQuestion.$error.required) || (testForm.$submitted && testForm.marksPerQuestion.$error.required))">* Please Enter your Test Score</p>
+		    </div>
+
+		    <div class="md-form" ng-class="{ 'success':(testForm.timeLimit.$valid && !testForm.timeLimit.$pristine), 'error':(!testForm.timeLimit.$valid && !testForm.timeLimit.$pristine) || (!testForm.timeLimit.$valid && testForm.$submitted)}">
+		        <i class="fa fa-lock prefix grey-text"></i>
+		        <input type="number" id="orangeForm-pass" class="form-control validate" name="timeLimit" ng-model="test.testData.timeLimit" min="1" max="9999" maxlength="4" oninput="this.value=this.value.slice(0,this.maxLength||1/1);this.value=(this.value   < 1) ? (1/1) : this.value;" required>
+		        <label for="orangeForm-pass">Time Limit in minutes</label>
+
+		        <!-- Error message if not entered-->
+		        <p class="help-block" ng-show="((!testForm.timeLimit.$pristine && testForm.timeLimit.$error.required) || (testForm.$submitted && testForm.timeLimit.$error.required))">* Please Enter your time limit in minutes</p>
+		    </div>
+
+		    <div class="text-center">
+		        <button class="btn btn-deep-orange" type="submit">Create Test</button>
+		    </div>
+
+
+		</form>
+
+		<br>
+
+		<div class = "row show-hide-message col-sm-12" ng-show="test.successMessage">
+
+			<!-- Success message-->
+			<div class="alert alert-success">{{test.successMessage}}</div>
+		</div>
+
+		<br>
+
+		<div class = "row show-hide-message col-sm-12" ng-show="test.errorMessage">
+
+			<!-- Error message-->
+			<div class="alert alert-danger">{{test.errorMessage}}</div>
+		</div>
+
+	<br>
+
+	</div>
+
+</div>
+</div>
+
+
+
+
+
+
+

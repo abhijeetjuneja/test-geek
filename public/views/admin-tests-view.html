@@ -1,0 +1,61 @@
+<div class="container-fluid user-dashboard ">
+	<!--Admin Dashboard -->
+    <div class="row dashboard col-lg-11" ng-if="test.allTests" style="padding-right: 0;padding-left: 0;">
+        <div class=" table-responsive text-center">
+            <!--Table-->
+            <table class="table table-striped table-wrapper-2">
+
+                <!--Table head-->
+                <thead style="color: white;background-color: #4188e0;padding-top: 1.5vh;padding-bottom: 1.5vh;">
+                    <tr>
+                    	<th>No.</th>
+                        <th>Test Name</th>
+                        <th>Test Category</th>
+                        <th>Questions</th>
+                        <th>Time Limit</th>
+                        <th>Marks</th>
+                        <th>Created on</th>
+                        <th>Delete</th>
+                        <th>Alert</th>
+                    </tr>
+                </thead>
+                <!--Table head-->
+
+                <!--Table body-->
+                <tbody>
+                    <!--All Queries -->
+                    <tr ng-repeat="tests in filtered = (test.allTests) | startFrom:test.currentPage*test.pageSize | limitTo:test.pageSize" >
+                    	<td><b>{{$index+1}}</td>
+                        <td id="test-title" ng-click="test.getTestDetail(tests._id)"><b>{{tests.testName}}</td>
+                        <td id="test-title" ng-click="test.getTestDetail(tests._id)"><b>{{tests.testCategory}}</b></td>
+                        <td id="test-title" ng-click="test.getTestDetail(tests._id)"><b>{{tests.questions.length}}</td>
+                        <td id="test-title" ng-click="test.getTestDetail(tests._id)"><b>{{tests.timeLimit}} mins</td>
+                        <td id="test-title" ng-click="test.getTestDetail(tests._id)"><b>{{test.getScore(tests.questions.length,tests.marksPerQuestion)}}</td>
+                        <td id="test-title" ng-click="test.getTestDetail(tests._id)"><b>{{tests.createdAt | date : 'medium'}}</td>
+                        <td><b><i id="delete-icon" class="fa fa-trash fa-2x" style="color: red;" ng-click="test.deleteTest(tests._id)"></i></td>
+                        <td id="test-title" ng-click="test.getTestDetail(tests._id)" ng-if="tests.questions.length" style="color: green;"><b>Valid Test</td>
+                        <td id="test-title" ng-click="test.getTestDetail(tests._id)" ng-if="!tests.questions.length" style="color: red;"><b>Add Questions!</td>
+                    </tr>  
+                </tbody>
+                <!--Table body-->
+            </table>
+            <!--Table-->
+             
+
+        </div>
+            <!--Pagination -->
+            <div class="text-center table-buttons">
+                <button class="btn btn-default dash-button" ng-disabled="test.currentPage+1 == 1" ng-click="test.currentPage=test.currentPage-1">
+                    Previous
+                </button> 
+                <strong>{{test.currentPage+1}}/{{test.numberOfPages(filtered.length)}}</strong>
+                <button class="btn btn-default  dash-button" ng-disabled="test.currentPage+1 >= test.numberOfPages(filtered.length)" ng-click="test.currentPage=test.currentPage+1">
+                    Next
+                </button> 
+            </div>
+    </div>
+
+    <div class="dashboard text-center" ng-if="!test.allTests">
+    	<h1>No Tests Found</h1>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="container-fluid user-dashboard">
+	<div class="row text-center">
+		<div class="col-sm-12 col-md-5 col-lg-3 user-stats-entry" ng-if="tests.questions.length" ng-repeat = "tests in filtered = (test.allTests)" style="padding:0;">
+			<div class="container-fluid"  style="background-color:#4a4b6f;color:white;padding-top: 2vh;padding-bottom: 2vh;">
+				<strong><h4>{{tests.testName}}</h4></strong>
+			</div>
+			<br><br>
+			<p>Marks - {{test.getScore(tests.questions.length,tests.marksPerQuestion)}}</p>
+			<p>Questions - {{tests.questions.length}}</p>
+			<p>Duration - {{tests.timeLimit}}</p>
+			<button class="btn btn-success" ng-click="test.takeTest(tests._id);">Take Now!</button>
+		</div>
+		<div class="container-fluid text-center" ng-if="test.AllTests.length != 0">
+			<button class="btn btn-default dash-button" ng-disabled="test.currentPage+1 == 1" ng-click="test.currentPage=test.currentPage-1">
+                Previous
+            </button> 
+            <strong>{{test.currentPage+1}}/{{test.numberOfPages(filtered.length)}}</strong>
+            <button class="btn btn-default dash-button" ng-disabled="test.currentPage+1 >= test.numberOfPages(filtered.length)" ng-click="test.currentPage=test.currentPage+1">
+                Next
+            </button> 
+		</div>
+	</div>
+</div>

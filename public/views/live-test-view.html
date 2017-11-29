@@ -1,0 +1,101 @@
+<div class="container-fluid user-dashboard">
+	<div style="margin-top: 10vh;margin-bottom: 5vh;position:fixed;bottom:0;right:0;" ng-show="live.testStarted && !live.testFinished">
+		<div class="container-fluid" style="background-color: red;color:white;padding-top: 4px;padding-bottom: 2px;">
+			<strong><h4><i class="fa fa-clock-o" aria-hidden="true"></i> Time Left</h4></strong>
+		</div>
+		<div class="container-fluid text-center" style="background-color: white;padding-top: 4px;padding-bottom: 2px;">
+			<strong><h2 id="time_left"  ></h2></strong>
+		</div>
+		
+	</div>
+	
+	<div class="user-stats-entry col-sm-12 col-lg-6" style="padding:0;"	 ng-if="!live.testStarted">
+		<div class="container-fluid" style="background-color:#4a4b6f;color:white;padding-top: 2vh;padding-bottom: 2vh;">
+			<strong>
+				<h2 class="text-center">{{live.testData.testName}} Online Test</h2>
+				<h4 class="text-center">Marks - {{live.testScore}} &nbsp&nbsp&nbsp&nbspDuration - {{live.testData.timeLimit}} mins</h4>
+			</strong>
+		</div>
+		
+		<div class="container-fluid">
+			<br><p class="text-center">Hello <u>{{live.name}}</u> please go through the online test instructions before you commence the test.</p>
+			<strong><h4 class="text-center"><u>Online test instructions</u></h4></strong>
+			<p>1. On commencing the online test,the clock displays the remaining duration of the test.</p>
+			<p>2. All Questions will be displayed one by one on the page.</p>
+			<p>3. There are Navigation buttons for next and previous questions.</p>
+			<p>4. There are 4 options associated with every question out of which only 1 is Correct.</p>
+			<p>5. Check the option if you find its the correct answer</p>
+			<p>6. Once you have completed the Online test you can proceed to click Submit to finish the test.</p>
+			<p>7. When the test ends abruptly or you close the test window,all the answers will be submitted even if you haven't completed the test.</p>
+			<center><button class="btn btn-primary" ng-click="live.startTest();">Start Test</button></center>
+		</div>
+		
+	</div>
+
+	<div class="user-stats-entry" style="margin-left: 10vw;margin-right: 10vw;padding-top: 0;padding-bottom: 0;"  ng-if="live.testStarted">
+		<form name="liveTestForm" id="liveTestForm" ng-submit="live.openSubmitWindow(live.liveTestData);">
+
+			<div class="Questions" ng-repeat="(key,question) in filtered = (live.testData.questions) | startFrom:live.currentPage*live.pageSize | limitTo:live.pageSize" ng-if="!live.testFinished" >
+			    <div class="md-form" style="color: white;background-color: grey;padding-top: 1.5vh;padding-bottom: 1.5vh;margin-bottom: 0;">
+			    	<div class="container-fluid">
+			    		<strong><p>Q.{{$index+1}}.) {{question.question}}</p></strong>
+			    	</div>
+			        
+			    </div>
+
+			    <div class="form-group container-fluid questionForm" ng-class="{ 'selected':live.liveTestData.answer[live.currentPage][0] ===  question.option1 , 'deselect' : live.liveTestData.answer[live.currentPage][0] !=  question.option1}"  style="border-bottom:2px solid #f1f1f1;margin-bottom: 0;padding-top: 0.5rem;padding-bottom: 0.5rem;">
+			        <input name="{{$parent.$index}}" type="radio" id="{{$parent.$index}}" value="{{question.option1}}" ng-model="live.liveTestData.answer[live.currentPage][0]" ng-change='live.calTime(live.currentPage,question);live.setDefault(live.currentPage,1,2,3);'>
+	    			<label for="option1">{{question.option1}}</label>
+			    </div>
+			    <div class="form-group container-fluid questionForm" ng-class="{ 'selected':live.liveTestData.answer[live.currentPage][1] ===  question.option2 , 'deselect' : live.liveTestData.answer[live.currentPage][1] !=  question.option2}" style="border-bottom:2px solid #f1f1f1;margin-bottom: 0;padding-top: 0.5rem;padding-bottom: 0.5rem;">
+			        <input name="{{$parent.$index}}" type="radio" id="{{$parent.$index}}" value="{{question.option2}}" ng-model="live.liveTestData.answer[live.currentPage][1]" ng-change='live.calTime(live.currentPage,question);live.setDefault(live.currentPage,0,2,3);'>
+	    			<label for="option2">{{question.option2}}</label>
+			    </div>
+			    <div class="form-group container-fluid questionForm" ng-class="{ 'selected':live.liveTestData.answer[live.currentPage][2] ===  question.option3 , 'deselect' : live.liveTestData.answer[live.currentPage][2] !=  question.option3}" style="border-bottom:2px solid #f1f1f1;margin-bottom: 0;padding-top: 0.5rem;padding-bottom: 0.5rem;">
+			        <input name="{{$parent.$index}}" type="radio" id="{{$parent.$index}" value="{{question.option3}}" ng-model="live.liveTestData.answer[live.currentPage][2]" ng-change='live.calTime(live.currentPage,question);live.setDefault(live.currentPage,0,1,3);'>
+	    			<label for="option3">{{question.option3}}</label>
+			    </div>
+			    <div class="form-group container-fluid questionForm" ng-class="{ 'selected':live.liveTestData.answer[live.currentPage][3] ===  question.option4 , 'deselect' : live.liveTestData.answer[live.currentPage][3] !=  question.option4}"  style="padding-top: 0.5rem;padding-bottom: 0.5rem;margin-bottom: 0;"  >
+			        <input name="{{$parent.$index}}" type="radio" id="{{$parent.$index}}" value="{{question.option4}}" ng-model="live.liveTestData.answer[live.currentPage][3]" ng-change='live.calTime(live.currentPage,question);live.setDefault(live.currentPage,0,1,2);'>
+	    			<label for="option4">{{question.option4}}</label>
+			    </div>
+
+			    
+
+			    <!--Pagination -->
+	            <div class="text-center table-buttons" style="background-color: #f1f1f1">
+	                <button class="btn btn-default dash-button" type="button" ng-disabled="live.currentPage+1 == 1" ng-click="live.currentPage=live.currentPage-1; ">
+	                    Previous
+	                </button> 
+	                <strong>{{live.currentPage+1}}/{{live.numberOfPages(filtered.length)}}</strong>
+	                <button class="btn btn-default  dash-button" ng-disabled="live.currentPage+1 >= live.numberOfPages(filtered.length)" type="button" ng-click="live.currentPage=live.currentPage+1;live.setFirstViewTime($index+1);">
+	                    Next
+	                </button> 
+	            </div>
+	            <div class="form-group text-center" style="background-color: #f1f1f1">
+			        <button class="btn btn-primary" type="submit">Finish Test</button>
+			    </div>
+        	</div>
+
+        	
+		</form>
+	</div>
+	<div class="container-fluid user-stats-entry col-sm-12 col-lg-8 text-center" ng-if="live.testFinished" style="padding-top: 0;padding-left: 0;padding-right: 0;">
+		<div class="container-fluid" style="background-color:#4a4b6f;color:white;padding-top: 2vh;padding-bottom: 2vh;">
+			<strong>
+				<h2>Test Result</h2>
+		</div>
+		<div class="container-fluid">
+			<strong>
+				<br><h4>Score - {{live.testScore}}/{{live.outOf}}</h4>
+				<h4>Percentage - {{live.percentage}}</h4>
+				<h4>Correct Answers - {{live.correct}}</h4>
+				<h4>Incorrect Answers - {{live.incorrect}}</h4>
+				<h4>Unattempted - {{live.unattempted}}</h4>
+				<h4>Time taken - {{live.testTime}} mins</h4>
+			</strong>
+		</div>					
+	</div>
+
+
+</div>

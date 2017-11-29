@@ -1,0 +1,323 @@
+<div class="container-fluid user-dashboard">
+	<div class="row">
+		<div class="col-md-4 offset-md-1 text-center dashboard" style="padding-right: 0;padding-left: 0;margin-bottom: 5vh;margin-top: 5vh;">
+			<div class="container-fluid" style="background-color:#4a4b6f;color:white;padding-top: 2vh;padding-bottom: 2vh;">
+		        <strong>
+		            <h3>{{test.test.testName}} Test</h3>
+		        </strong>
+        	</div> 
+			<br><b><h4>Category - {{test.test.testCategory}}</h4><br></b>
+			<p>Description - {{test.test.testDescription}}</p><br><br><br>
+			<p>Total Questions - {{test.test.questions.length}}</p><br>
+			<p>Time Limit - {{test.test.timeLimit}} minutes</p><br><br>
+			<button class="btn btn-warning" data-toggle="modal" data-target="#modalTestForm" ng-click="test.labelActive();" ><i class="fa fa-pencil" aria-hidden="true"></i> Edit Test</button>
+			<button class="btn btn-success" data-toggle="modal" data-target="#modalCreateQuestionForm"><i class="fa fa-plus" aria-hidden="true"></i> Add Questions</button>
+		</div>
+		<div class="col-md-6 offset-md-1 dashboard" style="padding-left: 0;padding-right: 0;margin-bottom: 5vh;margin-top: 5vh;">
+			<div class="container-fluid" style="padding-left: 0;padding-right: 0;" ng-repeat="question in filtered = (test.test.questions) | startFrom:test.currentPage*test.pageSize | limitTo:test.pageSize " ng-if="test.test.questions.length != 0">
+				<strong>
+					<div class="container-fluid" style="background-color:#4a4b6f;color:white;padding-top: 2vh;padding-bottom: 2vh;">
+				        <h4 style="padding-left: 15px;">Q.{{$index+1}} ) {{question.question}}</h4>
+		        	</div>
+		        	<div class="container-fluid">
+						<br><p style="padding-left: 15px;"> a) {{question.option1}}</p>
+						<p style="padding-left: 15px;"> b) {{question.option2}}</p>
+						<p style="padding-left: 15px;"> c) {{question.option3}}</p>
+						<p style="padding-left: 15px;"> d) {{question.option4}}</p>
+					</div>
+				</strong>
+				<div class="container-fluid text-center">
+					<button class="btn btn-warning btn-rou" ng-click="test.setEditQuestionForm(question);"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>
+					<button class="btn btn-danger"  ng-click="test.deleteQuestion(question._id);"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+				</div>
+			</div>
+			<div class="container-fluid text-center" ng-if="test.test.questions.length != 0">
+				<button class="btn btn-default  dash-button" ng-disabled="test.currentPage+1 == 1" ng-click="test.currentPage=test.currentPage-1">
+                    Previous
+                </button> 
+                <strong>{{test.currentPage+1}}/{{test.numberOfPages(filtered.length)}}</strong>
+                <button class="btn btn-default  dash-button" ng-disabled="test.currentPage+1 >= test.numberOfPages(filtered.length)" ng-click="test.currentPage=test.currentPage+1">
+                    Next
+                </button> 
+			</div>
+			<div class="container-fluid text-center" ng-if="test.test.questions.length == 0" style="color: red;">
+				<strong><br><br><h2>No Questions Found</h2></strong><br><br>
+				<button class="btn btn-success" data-toggle="modal" data-target="#modalCreateQuestionForm"><i class="fa fa-plus" aria-hidden="true"></i> Add Questions</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--Modal: Login / Register Form-->
+<div class="modal fade wow animated zoomIn" id="modalTestForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog .modal-sm cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Body-->
+            <div class="modal-body">
+            	<strong> <h4 class="h5 text-center mb-4"><u>Edit Test</u></h4> </strong>
+                <form name="testForm" id="testForm" ng-submit="test.editTest(testData,testForm.$valid);" novalidate>
+				    
+
+				    <div class="md-form" ng-class="{ 'success':(testForm.testName.$valid && !testForm.testName.$pristine), 'error':(!testForm.testName.$valid && !testForm.testName.$pristine) || (!testForm.testName.$valid && testForm.$submitted)}" style="margin-bottom: 0;">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate s"  name="testName" ng-model="test.testData.testName" required>
+				        <label for="orangeForm-name" class="active">Test Name</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!testForm.testName.$pristine && testForm.testName.$error.required) || (testForm.$submitted && testForm.testName.$error.required))">Please Enter your Test Name</p>
+				    </div>
+
+				    <br>
+
+				    <div class="form-group" ng-class="{ 'success':(testForm.testCategory.$valid && !testForm.testCategory.$pristine), 'error':(!testForm.testCategory.$valid && !testForm.testCategory.$pristine) || (!testForm.testCategory.$valid && testForm.$submitted)}">
+
+				    	<i class="fa fa-user fa-2x prefix grey-text" style="padding-right: 1.5rem;"></i><label for="testCategory" class="grey-text" class="active">Category</label>
+				        <select class="form-control  validate test-select" id="testCategory" name="testCategory"  ng-model="test.testData.testCategory"   required>
+					        <option value="Web">Web</option>
+					        <option value="Database">Database</option>
+					        <option value="Programming">Programming</option>
+					        <option value="Aptitude">Aptitude</option>
+					        <option value="General Knowledge">General Knowledge</option>
+					        <option value="Machine Learning">Machine Learning</option>
+						</select>
+
+						<!-- Error message if not entered-->
+						<p class="help-block" ng-show="((!testForm.testCategory.$pristine && testForm.testCategory.$error.required) || (testForm.$submitted && testForm.testCategory.$error.required))">* Please Enter your Test Category</p>
+						
+				    </div>
+
+				    <br>
+
+				    
+				    <div class="md-form" ng-class="{ 'success':(testForm.testDescription.$valid && !testForm.testDescription.$pristine), 'error':(!testForm.testDescription.$valid && !testForm.testDescription.$pristine) || (!testForm.testDescription.$valid && testForm.$submitted)}">
+				        <i class="fa fa-lock prefix grey-text"></i>
+				        <input type="text" id="orangeForm-pass" class="form-control validate" name="testDescription" ng-model="test.testData.testDescription" required>
+				        <label for="orangeForm-pass" class="active">Test Description</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!testForm.testDescription.$pristine && testForm.testDescription.$error.required) || (testForm.$submitted && testForm.testDescription.$error.required))">* Please Enter your test Description</p>
+				    </div>
+
+				    <div class="md-form" ng-class="{ 'success':(testForm.marksPerQuestion.$valid && !testForm.marksPerQuestion.$pristine), 'error':(!testForm.marksPerQuestion.$valid && !testForm.marksPerQuestion.$pristine) || (!testForm.marksPerQuestion.$valid && testForm.$submitted)}">
+				        <i class="fa fa-lock prefix grey-text"></i>
+				        <input type="number" id="orangeForm-pass" class="form-control validate" name="marksPerQuestion" ng-model="test.testData.marksPerQuestion"  min="1" max="9999" maxlength="4" oninput="this.value=this.value.slice(0,this.maxLength||1/1);this.value=(this.value   < 1) ? (1/1) : this.value;" required>
+				        <label for="orangeForm-pass" class="active" >Marks Per Question</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!testForm.marksPerQuestion.$pristine && testForm.marksPerQuestion.$error.required) || (testForm.$submitted && testForm.marksPerQuestion.$error.required))">* Please Enter your Test Score</p>
+				    </div>
+
+				    <div class="md-form" ng-class="{ 'success':(testForm.timeLimit.$valid && !testForm.timeLimit.$pristine), 'error':(!testForm.timeLimit.$valid && !testForm.timeLimit.$pristine) || (!testForm.timeLimit.$valid && testForm.$submitted)}">
+				        <i class="fa fa-lock prefix grey-text"></i>
+				        <input type="number" id="orangeForm-pass" class="form-control validate" name="timeLimit" ng-model="test.testData.timeLimit"  min="1" max="9999" maxlength="4" oninput="this.value=this.value.slice(0,this.maxLength||1/1);this.value=(this.value   < 1) ? (1/1) : this.value;" required>
+				        <label for="orangeForm-pass" class="active">Time Limit in minutes</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!testForm.timeLimit.$pristine && testForm.timeLimit.$error.required) || (testForm.$submitted && testForm.timeLimit.$error.required))">* Please Enter your time limit in minutes</p>
+				    </div>
+
+				    <div class="text-center">
+				        <button class="btn btn-deep-orange" type="submit">Save Changes</button>
+				    </div>
+
+
+				</form>
+
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal" ng-click="test.hideModal();">Close</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!--Modal: Login / Register Form-->
+<div class="modal fade wow animated zoomIn" id="modalEditQuestionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Body-->
+            <div class="modal-body">
+
+                <form name="questionEditForm" id="questionEditForm" ng-submit="test.editQuestion(test.questionEditData,questionEditForm.$valid);"  novalidate>
+				    <strong> <h4 class="h5 text-center mb-4"><u>Edit Question</u></h4> </strong>
+
+				    <div class="md-form" ng-class="{ 'success':(questionEditForm.question.$valid && !questionEditForm.question.$pristine), 'error':(!questionEditForm.question.$valid && !questionEditForm.question.$pristine) || (!questionEditForm.question.$valid && questionEditForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="question" ng-model="test.questionEditData.question" required>
+				        <label for="orangeForm-name" class="active">Question</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionEditForm.question.$pristine && questionEditForm.question.$error.required) || (questionEditForm.$submitted && questionEditForm.question.$error.required))">Please Enter Question</p>
+				    </div>
+
+				    <br>
+
+				    <div class="md-form" ng-class="{ 'success':(questionEditForm.option1.$valid && !questionEditForm.option1.$pristine), 'error':(!questionEditForm.option1.$valid && !questionEditForm.option1.$pristine) || (!questionEditForm.option1.$valid && questionEditForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="option1" ng-model="test.questionEditData.option1" required>
+				        <label for="orangeForm-name" class="active" >Option 1</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionEditForm.option1.$pristine && questionEditForm.option1.$error.required) || (questionEditForm.$submitted && questionEditForm.option1.$error.required))">Please Enter Option 1</p>
+				    </div>
+
+				    <br>
+
+				    <div class="md-form" ng-class="{ 'success':(questionEditForm.option2.$valid && !questionEditForm.option2.$pristine), 'error':(!questionEditForm.option2.$valid && !questionEditForm.option2.$pristine) || (!questionEditForm.option2.$valid && questionEditForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="option2" ng-model="test.questionEditData.option2" required>
+				        <label for="orangeForm-name" class="active">Option 2</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionEditForm.option2.$pristine && questionEditForm.option2.$error.required) || (questionEditForm.$submitted && questionEditForm.option2.$error.required))">Please Enter Option 2</p>
+				    </div>
+
+				    <br>
+				    <div class="md-form" ng-class="{ 'success':(questionEditForm.option3.$valid && !questionEditForm.option3.$pristine), 'error':(!questionEditForm.option3.$valid && !questionEditForm.option3.$pristine) || (!questionEditForm.option3.$valid && questionEditForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="option3" ng-model="test.questionEditData.option3" required>
+				        <label for="orangeForm-name" class="active">Option 3</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionEditForm.option3.$pristine && questionEditForm.option3.$error.required) || (questionEditForm.$submitted && questionEditForm.option3.$error.required))">Please Enter Option 3</p>
+				    </div>
+
+				    <br>
+				    <div class="md-form" ng-class="{ 'success':(questionEditForm.option4.$valid && !questionEditForm.option4.$pristine), 'error':(!questionEditForm.option4.$valid && !questionEditForm.option4.$pristine) || (!questionEditForm.option4.$valid && questionEditForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="option4" ng-model="test.questionEditData.option4" required>
+				        <label for="orangeForm-name" class="active">Option 4</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionEditForm.option4.$pristine && questionEditForm.option4.$error.required) || (questionEditForm.$submitted && questionEditForm.option4.$error.required))">Please Enter Option 4</p>
+				    </div>
+
+				    <br>
+				    <div class="md-form" ng-class="{ 'success':(questionEditForm.answer.$valid && !questionEditForm.answer.$pristine), 'error':(!questionEditForm.answer.$valid && !questionEditForm.answer.$pristine) || (!questionEditForm.answer.$valid && questionEditForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="answer" ng-model="test.questionEditData.answer" required>
+				        <label for="orangeForm-name" class="active">Answer</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionEditForm.answer.$pristine && questionEditForm.answer.$error.required) || (questionEditForm.$submitted && questionEditForm.answer.$error.required))">Please Enter Answer</p>
+				    </div>
+
+				    <br>
+
+				    
+
+				    <div class="text-center">
+				        <button class="btn btn-deep-orange" type="submit">Save Changes</button>
+				    </div>
+
+				</form>
+
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal" ng-click="test.hideModal('#modalEditQuestionForm');">Close</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!--Modal: Login / Register Form-->
+<div class="modal fade wow animated zoomIn" id="modalCreateQuestionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Body-->
+            <div class="modal-body">
+
+                <form name="questionCreateForm" id="questionCreateForm" ng-submit="test.createQuestion(questionCreateForm,questionCreateForm.$valid);"  novalidate>
+				    <strong> <h4 class="h5 text-center mb-4"><u>Add Question</u></h4> </strong>
+
+				    <div class="md-form" ng-class="{ 'success':(questionCreateForm.question.$valid && !questionCreateForm.question.$pristine), 'error':(!questionCreateForm.question.$valid && !questionCreateForm.question.$pristine) || (!questionCreateForm.question.$valid && questionCreateForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="question" ng-model="test.questionCreateData.question" required>
+				        <label for="orangeForm-name" >Question</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionCreateForm.question.$pristine && questionCreateForm.question.$error.required) || (questionCreateForm.$submitted && questionCreateForm.question.$error.required))">Please Enter Question</p>
+				    </div>
+
+				    <br>
+
+				    <div class="md-form" ng-class="{ 'success':(questionCreateForm.option1.$valid && !questionCreateForm.option1.$pristine), 'error':(!questionCreateForm.option1.$valid && !questionCreateForm.option1.$pristine) || (!questionCreateForm.option1.$valid && questionCreateForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="option1" ng-model="test.questionCreateData.option1" required>
+				        <label for="orangeForm-name"  >Option 1</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionCreateForm.option1.$pristine && questionCreateForm.option1.$error.required) || (questionCreateForm.$submitted && questionCreateForm.option1.$error.required))">Please Enter Option 1</p>
+				    </div>
+
+				    <br>
+
+				    <div class="md-form" ng-class="{ 'success':(questionCreateForm.option2.$valid && !questionCreateForm.option2.$pristine), 'error':(!questionCreateForm.option2.$valid && !questionCreateForm.option2.$pristine) || (!questionCreateForm.option2.$valid && questionCreateForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="option2" ng-model="test.questionCreateData.option2" required>
+				        <label for="orangeForm-name" >Option 2</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionCreateForm.option2.$pristine && questionCreateForm.option2.$error.required) || (questionCreateForm.$submitted && questionCreateForm.option2.$error.required))">Please Enter Option 2</p>
+				    </div>
+
+				    <br>
+				    <div class="md-form" ng-class="{ 'success':(questionCreateForm.option3.$valid && !questionCreateForm.option3.$pristine), 'error':(!questionCreateForm.option3.$valid && !questionCreateForm.option3.$pristine) || (!questionCreateForm.option3.$valid && questionCreateForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="option3" ng-model="test.questionCreateData.option3" required>
+				        <label for="orangeForm-name" >Option 3</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionCreateForm.option3.$pristine && questionCreateForm.option3.$error.required) || (questionCreateForm.$submitted && questionCreateForm.option3.$error.required))">Please Enter Option 3</p>
+				    </div>
+
+				    <br>
+				    <div class="md-form" ng-class="{ 'success':(questionCreateForm.option4.$valid && !questionCreateForm.option4.$pristine), 'error':(!questionCreateForm.option4.$valid && !questionCreateForm.option4.$pristine) || (!questionCreateForm.option4.$valid && questionCreateForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="option4" ng-model="test.questionCreateData.option4" required>
+				        <label for="orangeForm-name" >Option 4</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionCreateForm.option4.$pristine && questionCreateForm.option4.$error.required) || (questionCreateForm.$submitted && questionCreateForm.option4.$error.required))">Please Enter Option 4</p>
+				    </div>
+
+				    <br>
+				    <div class="md-form" ng-class="{ 'success':(questionCreateForm.answer.$valid && !questionCreateForm.answer.$pristine), 'error':(!questionCreateForm.answer.$valid && !questionCreateForm.answer.$pristine) || (!questionCreateForm.answer.$valid && questionCreateForm.$submitted)}">
+				        <i class="fa fa-user prefix grey-text"></i>
+				        <input type="text" id="orangeForm-name" class="form-control validate"  name="answer" ng-model="test.questionCreateData.answer" required>
+				        <label for="orangeForm-name" >Answer</label>
+
+				        <!-- Error message if not entered-->
+				        <p class="help-block" ng-show="((!questionCreateForm.answer.$pristine && questionCreateForm.answer.$error.required) || (questionCreateForm.$submitted && questionCreateForm.answer.$error.required))">Please Enter Answer</p>
+				    </div>
+
+				    <br>
+
+				    
+
+				    <div class="text-center">
+				        <button class="btn btn-deep-orange" type="submit" ng-click="reset()" >Create Question</button>
+				    </div>
+
+				</form>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal" ng-click="test.hideModal('#modalCreateQuestionForm');">Close</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
