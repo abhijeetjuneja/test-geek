@@ -1,7 +1,7 @@
 
 app.config(['$routeProvider','$locationProvider', function($routeProvider,$locationProvider){
     $routeProvider
-    	.when('/',{
+        .when('/',{
             // location of the template
             templateUrl     : 'views/home-view.html',
             authenticated   :  false
@@ -81,6 +81,13 @@ app.config(['$routeProvider','$locationProvider', function($routeProvider,$locat
             controllerAs    : 'dashboard' ,
             authenticated   :  true 
         })
+        .when('/user/status/:userId',{
+            // location of the template
+            templateUrl     : 'views/admin-user-status-view.html',
+            controller      : 'liveStatusController',
+            controllerAs    : 'status' ,
+            authenticated   :  true 
+        })
         .when('/results/:resultId',{
             // location of the template
             templateUrl     : 'views/detail-result-view.html',
@@ -125,7 +132,6 @@ app.config(['$routeProvider','$locationProvider', function($routeProvider,$locat
   requireBase: false
 }).hashPrefix('');
 }]);
-
 
 //Avoid unauthorized access to routes
 app.run(['$rootScope','authService','$location',function($rootScope,authService,$location){

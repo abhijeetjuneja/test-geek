@@ -7,7 +7,6 @@ app.controller('facebookController',['$location','authService','$timeout','$scop
     }
     else
     {
-        console.log($routeParams.token);
         authService.facebook($routeParams.token);
         $location.path('/dashboard');
     }

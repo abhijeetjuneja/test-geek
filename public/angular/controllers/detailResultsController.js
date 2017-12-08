@@ -47,33 +47,33 @@ app.controller('detailResultsController',['$http','userService','$location','aut
 
     //Plot doughnut graph
     this.drawDoughnut = function(){
-    	main.ctx = document.getElementById("myChart");
-    	var myDoughnutChart = new Chart(main.ctx, {
-		    type: 'doughnut',
-		    data: {
-		    	datasets: [{
-        			data: [main.result.correctAnswers, main.result.incorrectAnswers, main.result.unattempted],
-        			backgroundColor :['Green','Red','Yellow']
-    			}],
+        main.ctx = document.getElementById("myChart");
+        var myDoughnutChart = new Chart(main.ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [main.result.correctAnswers, main.result.incorrectAnswers, main.result.unattempted],
+                    backgroundColor :['Green','Red','Yellow']
+                }],
 
-			    // These labels appear in the legend and in the tooltips when hovering different arcs
-			    labels: [
-			        'Correct',
-			        'Incorrect',
-			        'Unattempted'
-			    ]
-		    },
-		    options: {
-		    	cutoutPercentage : 50,
-		    	responsive:true
-		    }
-		});
+                // These labels appear in the legend and in the tooltips when hovering different arcs
+                labels: [
+                    'Correct',
+                    'Incorrect',
+                    'Unattempted'
+                ]
+            },
+            options: {
+                cutoutPercentage : 50,
+                responsive:true
+            }
+        });
     };
     
     //Get result by Id
     this.getResult = function(){
 
-    	//Call test service to get result by Id
+        //Call test service to get result by Id
         testService.getResultById($routeParams.resultId).then(function(data){
             if(data.data.error){
                 main.errorMessage=data.data.message;
@@ -83,6 +83,23 @@ app.controller('detailResultsController',['$http','userService','$location','aut
                 main.result.attempted = main.result.correctAnswers + main.result.incorrectAnswers;
                 main.result.total = main.result.correctAnswers+main.result.incorrectAnswers+main.result.unattempted;
 
+                //Call test service
+                testService.getTestById(main.result.testId).then(function(data){
+                    if(data.data.error){
+                        main.errorMessage=data.data.message;
+                    } else{
+                        main.successMessage=data.data.message;
+
+                        //Set test data
+                        main.testData={ 'testName' : data.data.data.testName,
+                                        'testCategory':data.data.data.testCategory,
+                                        'testDescription':data.data.data.testDescription,
+                                        'timeLimit':data.data.data.timeLimit,
+                                        'marksPerQuestion':data.data.data.marksPerQuestion,
+                                        'testId':data.data.data._id
+                                        };
+                    }
+                });
                 //Call draw Doughnut function
                 main.drawDoughnut();
             }

@@ -529,7 +529,7 @@ module.exports.controllerFunction = function(app) {
                 //If test not found
                 if(test == null || test == undefined)
                 {
-                    var myResponse = responseGenerator.generate(false,"No tests found",200,null,null);
+                    var myResponse = responseGenerator.generate(true,"No tests found",200,null,null);
                     console.log(myResponse);
                     res.json(myResponse);
                 }
