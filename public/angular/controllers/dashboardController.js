@@ -1,4 +1,4 @@
-app.controller('dashboardController',['$http','userService','$location','authService','$timeout','$scope','$q','testService','$routeParams','socket',function($http,userService,$location,authService,$timeout,$scope,$q,testService,$routeParams,socket){
+app.controller('dashboardController',['$http','userService','$location','authService','$timeout','$scope','$q','testService','$routeParams',function($http,userService,$location,authService,$timeout,$scope,$q,testService,$routeParams){
     $scope.query={};
     var main=this;
     this.pageSize=7;
@@ -20,25 +20,6 @@ app.controller('dashboardController',['$http','userService','$location','authSer
     this.promises=[];
     this.index=0;
     this.testNames=[];
-
-    //Get already online
-    socket.emit('already-online',0,function(data){
-        main.online = data;
-    });
-
-    //Listener for get online
-    socket.on('get-online',function(data){
-        main.online  = data;
-    });
-
-    this.checkOnline = function(id){
-        for(var i=0;i<main.online.length;i++)
-        {
-            if(main.online[i] == id)
-                return 'Track(Online)';
-        }
-        return 'Track(Offline)';
-    };
 
     //Resize chart on orientation change
     $( window ).resize(function() {
@@ -74,7 +55,7 @@ app.controller('dashboardController',['$http','userService','$location','authSer
             } else{
                 //Set error message
                 main.allUsers = data.data.data;
-                toastr.success('Click on name to get their details !');
+                console.log(data.data.message);
             }
         });
     };
@@ -92,7 +73,6 @@ app.controller('dashboardController',['$http','userService','$location','authSer
 
     //Draw percentage graph
     this.drawGraph = function(){
-        if(main.testNames.length !=null && main.testNames.length == main.allResults.length && main.percentages !=null && main.percentages.length == main.allResults.length)
         main.myChart = new Chart(main.ctx,{
             type:'line',
             data:{
@@ -132,6 +112,9 @@ app.controller('dashboardController',['$http','userService','$location','authSer
     this.initGraph = function(){
         main.ctx = document.getElementById("myChart").getContext('2d');
         main.drawGraph();
+        setTimeout(function(){
+            $(window).trigger('resize');
+        },3000);
     };
     
 
@@ -192,8 +175,6 @@ app.controller('dashboardController',['$http','userService','$location','authSer
                             {
                                 //Set error message
                                 main.errorMessage=data.data.message;
-                                main.testNames.push(null);    
-                                main.index++; 
                             }
                             else
                             {   
@@ -205,7 +186,7 @@ app.controller('dashboardController',['$http','userService','$location','authSer
                         });  
                     }
                     $q.all(main.promises).then(function(){
-                        console.log(main.allResults);
+                        
                     });
                 //Get all tickets
                 }
@@ -249,12 +230,8 @@ app.controller('dashboardController',['$http','userService','$location','authSer
             main.userId=data.data.userId;
             main.email = data.data.email;
 
-            //Dashboard route emit
-            if($location.path()=='/dashboard')
-                socket.emit('on-dashboard',main.userId);
-
             //Assign admin or user
-            if(main.email == 'admin@testgeek.com')
+            if(main.email == 'admin@geektest.com')
                 main.admin = true;
             else
                 main.admin = false;
@@ -271,10 +248,6 @@ app.controller('dashboardController',['$http','userService','$location','authSer
 
     this.getResult = function(id){
         $location.path('/results/'+id);
-    };
-
-    this.getStatus = function(id){
-        $location.path('/user/status/'+id);
     };
 
     
@@ -295,12 +268,11 @@ app.controller('dashboardController',['$http','userService','$location','authSer
 
     //Redirect to query details
     this.getUserDetail = function(id){
-    	$location.path('/user/'+id);
+        $location.path('/user/'+id);
     };
 
 
 }]);
-
 
 
 
