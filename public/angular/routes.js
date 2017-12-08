@@ -134,17 +134,39 @@ app.run(['$rootScope','authService','$location',function($rootScope,authService,
         if(next.hasOwnProperty('$$route')){
             //If logged In
             if(next.$$route.authenticated==true){
-                if(!authService.isLoggedIn()){
+
+                if(authService.isLoggedIn()){
+                    //Call authService to get User
+                    authService.getUser().then(function(data){
+                        //If error
+                        if(data.data.error){
+                            event.preventDefault();
+                            $location.path('/');
+                        }          
+                    });
+                }
+                else
+                {
                     event.preventDefault();
                     $location.path('/');
                 }
-            }else
+                
+            }
             //If not logged in
             if(next.$$route.authenticated==false){
+
                 if(authService.isLoggedIn()){
-                    event.preventDefault();
-                    $location.path('/dashboard');
+                    //Call authService to get User
+                    authService.getUser().then(function(data){
+
+                        //If error
+                        if(!data.data.error){
+                            event.preventDefault();
+                            $location.path('/dashboard');
+                        }          
+                    });
                 }
+                
             }
         }
 

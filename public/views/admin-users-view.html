@@ -11,8 +11,7 @@
                     	<th>No.</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Joined</th>
-                        <th>Delete</th>
+                        <th>Live Tracking(Status)</th>
                     </tr>
                 </thead>
                 <!--Table head-->
@@ -24,8 +23,7 @@
                     	<td><b>{{$index+1}}</td>
                         <td id="test-title" ng-click="dashboard.getUserDetail(user._id)"><b>{{user.firstName}} {{user.lastName}}</td>
                         <td id="test-title" ng-click="dashboard.getUserDetail(user._id)"><b>{{user.email}}</b></td>
-                        <td id="test-title" ng-click="dashboard.getUserDetail(user._id)"><b>{{user.joined}}</b></td>
-                        <td><b><i id="delete-icon" class="fa fa-trash fa-2x" style="color: red;" ng-click="test.deleteTest(tests._id)"></i></td>
+                        <td id="test-title" ><b><button class="btn btn-info btn-md" style="margin:0;background-color: black;" ng-click="dashboard.getStatus(user._id)">{{dashboard.checkOnline(user._id)}}</button></b></td>
                     </tr>  
                 </tbody>
                 <!--Table body-->

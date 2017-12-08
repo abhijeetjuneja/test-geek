@@ -1,4 +1,4 @@
-app.controller('liveTestController',['$location','authService','$timeout','$scope','$q','testService','$window','$routeParams',function($location,authService,$timeout,$scope,$q,testService,$window,$routeParams){
+app.controller('liveTestController',['$location','authService','$timeout','$scope','$q','testService','$window','$routeParams','socket',function($location,authService,$timeout,$scope,$q,testService,$window,$routeParams,socket){
     
     var main=this;
 
@@ -10,6 +10,7 @@ app.controller('liveTestController',['$location','authService','$timeout','$scop
     this.correct=0;
     this.incorrect=0;
     this.unattempted=0;
+    this.socketData={};
     
     //Initialize previous time as count
     this.previousTime = this.count;
@@ -21,9 +22,15 @@ app.controller('liveTestController',['$location','authService','$timeout','$scop
 
     main.setNavbar();
 
+    
+
     //Submit form if window closed or back button clicked
     window.onbeforeunload = function() {
-    
+
+      //Emit clear screen
+      socket.emit('clear-screen',main.userId);
+
+      //Open submit window
       main.openSubmitWindow($scope.live.liveTestData);
       return null;
     }
@@ -72,6 +79,8 @@ app.controller('liveTestController',['$location','authService','$timeout','$scop
                 //Set logged in as true
                 main.loggedIn=true;
                 main.userId= data.data.userId;
+                if($location.path()=='/test/live/'+$routeParams.testId)
+                    socket.emit('on-test',main.userId);
                 main.name = data.data.firstName + data.data.lastName;
                 main.email = data.data.email;
                 main.getTest();
@@ -163,13 +172,17 @@ app.controller('liveTestController',['$location','authService','$timeout','$scop
         main.answerData[index].correctAnswer = question.answer;
         main.answerData[index].questionId = question._id;
         main.timeTakenAnswers[index]=main.timeTakenAnswers[index] + main.previousTime - main.count;
+        main.socketData = {'index' : index+1,time : main.timeTakenAnswers[index] - main.timeViewFirstAnswers[index],'testName' : main.testData.testName,'userId' : main.userId};
+        
+        //Emit answered question
+        socket.emit('answered-question',main.socketData);
 
     };
 
     //Save time at which user opened the question
     this.setFirstViewTime = function(index){
-        if(main.timeViewFirstAnswers[index]==0)
         main.timeViewFirstAnswers[index]=main.testData.timeLimit*10*60 - main.count;
+        
     };  
 
     
@@ -181,6 +194,10 @@ app.controller('liveTestController',['$location','authService','$timeout','$scop
     //STart test
     this.startTest = function(){
         main.testStarted=true;
+        main.socketData = {'userId' : main.userId , 'testId' : $routeParams.testId,'testName' : main.testData.testName};
+        
+        //Test start emit
+        socket.emit('test-started',main.socketData);
         main.playing=true;
         main.countdown();
     };
@@ -223,7 +240,6 @@ app.controller('liveTestController',['$location','authService','$timeout','$scop
             $scope.$apply(function(){
                 main.testFinished=true;
             });
-            console.log(main.testFinished);
         }   else if (main.playing) {
                 setTimeout(main.countdown, 100);
             main.count--;
@@ -235,7 +251,10 @@ app.controller('liveTestController',['$location','authService','$timeout','$scop
 
     //Submit window function
     this.openSubmitWindow = function(liveTestData){
+        main.socketData = {'name' : main.name,'testName' : main.testData.testName,'userId' : main.userId};
 
+        //Test finish emit
+        socket.emit('finish-test',main.socketData);
         main.testTime = (main.testData.timeLimit*10*60 - main.count)/600;
         main.testTime = +main.testTime.toFixed(2);
         if(main.testStarted)

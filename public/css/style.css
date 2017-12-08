@@ -27,6 +27,9 @@ body.modal-open { overflow: hidden!important; }
    background-size: cover;
    background-attachment: fixed;
 }
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
 .second-navbar{
   background-color: white!important;
   box-shadow: 0px 1px 7px 0px #4a4b6f;
@@ -54,6 +57,11 @@ p1{
 }
 .navbar ul li a{
   color: black;
+}
+.dashboard-page,.tests-page,.test-taking-page,.results-page{
+  background-color: red;
+  color: white;
+  border:2px solid white;
 }
 
 /* Change the link color on hover */
@@ -122,7 +130,7 @@ a{
      color:black!important;
 }
 header .navbar {
-	border-radius: 0;
+  border-radius: 0;
 }
 
 .heading{
@@ -402,31 +410,31 @@ tr{
    
 
 .show-hide-message.ng-hide-remove{
-	-webkit-animation:zoomIn 0.3s both ease;
-	-moz-animation:zoomIn 0.3s both ease;
-	-webkit-animation:zoomIn 0.3s both ease;
+  -webkit-animation:zoomIn 0.3s both ease;
+  -moz-animation:zoomIn 0.3s both ease;
+  -webkit-animation:zoomIn 0.3s both ease;
 }
 
 .spinner{
-	-webkit-animation:spin 1s infinite;
-	-moz-animation:spin 1s infinite;
-	-webkit-animation:spin 1s infinite;
+  -webkit-animation:spin 1s infinite;
+  -moz-animation:spin 1s infinite;
+  -webkit-animation:spin 1s infinite;
 }
 
 
 @keyframes spin{
-	from {transform: rotate(0deg);}
-	to {transform: rotate(360deg);}
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
 }
 
 @-webkit-keyframes spin{
-	from {transform: rotate(0deg);}
-	to {transform: rotate(360deg);}
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
 }
 
 @-moz-keyframes spin{
-	from {transform: rotate(0deg);}
-	to {transform: rotate(360deg);}
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
 }
 
 .loading{

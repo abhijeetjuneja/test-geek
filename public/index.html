@@ -20,10 +20,10 @@
 </head>
 
 
-<body ng-controller="mainController as main" ng-cloak>
+<body ng-controller="mainController as main" ng-cloak ng-show="main.load">
 
     <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-light white fixed-top scrolling-navbar">
+    <nav class="navbar navbar-expand-lg navbar-light white fixed-top scrolling-navbar" >
 
         <!-- Navbar brand -->
         <a class="navbar-brand" href="/" style="color: #055865!important;"><strong>GeekTest <i class="fa fa-pencil-square-o"></i></strong></a>
@@ -36,7 +36,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <!-- Links -->
-            <ul class="navbar-nav ml-auto ">
+            <ul class="navbar-nav ml-auto " ng-cloak ng-if="main.load">
                 <li class="nav-item"  ng-if="!main.loggedIn">
                     <a class="nav-link" href="#steps"><strong>Why GeekTest?</strong></a>
                 </li>
@@ -53,6 +53,18 @@
                 <li class="nav-item"  ng-if="main.loggedIn && !main.admin" >
                     <!-- Show if not logged in -->
                     <a class="nav-link" href = "/user/tests/all" ><strong><i class="fa fa-plus-circle" aria-hidden="true"></i> Take A Test</strong></a>
+                </li>
+                <li class="nav-item"  ng-if="main.loggedIn && main.admin" >
+                    <!-- Show if not logged in -->
+                    <a class="nav-link" href = "/tests/create" ><strong><i class="fa fa-plus-circle" aria-hidden="true"></i> Create a Test</strong></a>
+                </li>
+                <li class="nav-item"  ng-if="main.loggedIn && main.admin" >
+                    <!-- Show if not logged in -->
+                    <a class="nav-link" href = "/admin/users/all" ><strong>Users</strong></a>
+                </li>
+                <li class="nav-item"  ng-if="main.loggedIn && main.admin" >
+                    <!-- Show if not logged in -->
+                    <a class="nav-link" href = "/admin/tests/view" ><strong>Tests</strong></a>
                 </li>
                 <li class="nav-item" ng-if="main.loggedIn">
                     <!-- Show if logged in -->
@@ -339,6 +351,7 @@
     <script type="text/javascript" src="vendor/angular-js/angular-animate.min.js"></script>
     <script type="text/javascript" src="vendor/wow/wow.min.js"></script>
     <script type="text/javascript" src="vendor/chart.js/Chart.js"></script>
+    <script type="text/javascript" src="vendor/socket/socket.io.js"></script>
 
     <script>
     new WOW().init();
@@ -350,9 +363,11 @@
     <script type="text/javascript" src="angular/services/tokenServices.js"></script>
     <script type="text/javascript" src="angular/services/interceptorServices.js"></script>
     <script type="text/javascript" src="angular/services/testServices.js"></script>
+    <script type="text/javascript" src="angular/services/socketServices.js"></script>
     <script type="text/javascript" src="angular/directives/match-password.js"></script>
     <script type="text/javascript" src="angular/filters/filter.js"></script>
     <script type="text/javascript" src="angular/controllers/liveTestController.js"></script>
+    <script type="text/javascript" src="angular/controllers/liveStatusController.js"></script>
     <script type="text/javascript" src="angular/controllers/mainController.js"></script>
     <script type="text/javascript" src="angular/controllers/resetController.js"></script>
     <script type="text/javascript" src="angular/controllers/testController.js"></script>

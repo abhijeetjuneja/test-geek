@@ -10,7 +10,7 @@
 	</div>
 	
 	<div class="user-stats-entry col-sm-12 col-lg-6" style="padding:0;"	 ng-if="!live.testStarted">
-		<div class="container-fluid" style="background-color:#4a4b6f;color:white;padding-top: 2vh;padding-bottom: 2vh;">
+		<div class="container-fluid " style="background-color:#4a4b6f;color:white;padding-top: 2vh;padding-bottom: 2vh;">
 			<strong>
 				<h2 class="text-center">{{live.testData.testName}} Online Test</h2>
 				<h4 class="text-center">Marks - {{live.testScore}} &nbsp&nbsp&nbsp&nbspDuration - {{live.testData.timeLimit}} mins</h4>
@@ -32,10 +32,10 @@
 		
 	</div>
 
-	<div class="user-stats-entry" style="margin-left: 10vw;margin-right: 10vw;padding-top: 0;padding-bottom: 0;"  ng-if="live.testStarted">
+	<div class="user-stats-entry " style="margin-left: 10vw;margin-right: 10vw;padding-top: 0;padding-bottom: 0;"  ng-if="live.testStarted">
 		<form name="liveTestForm" id="liveTestForm" ng-submit="live.openSubmitWindow(live.liveTestData);">
 
-			<div class="Questions" ng-repeat="(key,question) in filtered = (live.testData.questions) | startFrom:live.currentPage*live.pageSize | limitTo:live.pageSize" ng-if="!live.testFinished" >
+			<div class="Questions " ng-repeat="(key,question) in filtered = (live.testData.questions) | startFrom:live.currentPage*live.pageSize | limitTo:live.pageSize" ng-if="!live.testFinished" >
 			    <div class="md-form" style="color: white;background-color: grey;padding-top: 1.5vh;padding-bottom: 1.5vh;margin-bottom: 0;">
 			    	<div class="container-fluid">
 			    		<strong><p>Q.{{$index+1}}.) {{question.question}}</p></strong>
@@ -68,7 +68,7 @@
 	                    Previous
 	                </button> 
 	                <strong>{{live.currentPage+1}}/{{live.numberOfPages(filtered.length)}}</strong>
-	                <button class="btn btn-default  dash-button" ng-disabled="live.currentPage+1 >= live.numberOfPages(filtered.length)" type="button" ng-click="live.currentPage=live.currentPage+1;live.setFirstViewTime($index+1);">
+	                <button class="btn btn-default  dash-button" ng-disabled="live.currentPage+1 >= live.numberOfPages(filtered.length)" type="button" ng-click="live.currentPage=live.currentPage+1;live.setFirstViewTime(live.currentPage);">
 	                    Next
 	                </button> 
 	            </div>

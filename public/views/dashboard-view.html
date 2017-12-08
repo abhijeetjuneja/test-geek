@@ -79,16 +79,16 @@
 <!--Main Dashboard -->
 <div class=" container-fluid user-dashboard" ng-if="!dashboard.admin">
     <!--Admin Dashboard Head-->
-    <div class="row container-fluid dashboard-head col-sm-12 col-lg-11" >
+    <div class="row container-fluid dashboard-head col-sm-12 col-lg-11 wow animated zoomIn" >
         <!-- Grid column -->
-            <div class="col-md-12 mt-2 wow animated zoomIn">
+            <div class="col-md-12 mt-2">
         
                 <p><strong><i class="fa fa-ticket"></i>My Stats</strong><p>                
         
             </div>
     </div>
     <div class="row container-fluid user-dashboard-stats-parent-div text-center col-lg-11" style="margin-bottom: 0;">
-        <div class="col-sm-12 col-md-3 row user-stats-entry wow animated zoomIn" >
+        <div class="col-sm-12 col-md-3 row user-stats-entry wow animated bounceInLeft" >
             <div class="col-sm-5 col-md-3" style="background-color: red">
                 <i class="fa fa-times fa-2x" style="color:white;margin-top:2vh;margin-bottom: 2vh;"></i>
             </div>
@@ -99,7 +99,7 @@
                 </strong>
             </div>
         </div>
-        <div class="col-sm-12 col-md-3 row user-stats-entry wow animated zoomIn" >
+        <div class="col-sm-12 col-md-3 row user-stats-entry wow animated bounceIn" >
             <div class="col-md-3" style="background-color: purple;padding: 0;">
                 <i class="fa fa-circle-o fa-2x" style="color:white;margin-top:2vh;margin-bottom: 2vh;"></i>
             </div>
@@ -110,7 +110,7 @@
                 </strong>
             </div>
         </div>
-        <div class="col-sm-12 col-md-3 row user-stats-entry wow animated zoomIn" >
+        <div class="col-sm-12 col-md-3 row user-stats-entry wow animated bounceInRight" >
             <div class="col-md-3" style="background-color: green">
                 <i class="fa fa-check fa-2x" style="color:white;margin-top:2vh;margin-bottom: 2vh;"></i>
             </div>
@@ -123,7 +123,7 @@
         </div>
     </div>
     <div class="row container-fluid user-dashboard-stats-parent-div text-center col-sm-12 col-lg-11">
-        <div class="col-sm-12 col-md-3 row user-stats-entry wow animated zoomIn">  
+        <div class="col-sm-12 col-md-3 row user-stats-entry wow animated bounceInLeft" >  
             <div class="col-md-3" style="background-color: #B56703">
                 <i class="fa fa-percent fa-2x" style="color:white;margin-top:2vh;"></i>
             </div>
@@ -134,7 +134,7 @@
                 </strong>
             </div>              
         </div>
-        <div class="col-sm-12 col-md-3 row user-stats-entry wow animated zoomIn">
+        <div class="col-sm-12 col-md-3 row user-stats-entry wow animated bounceIn">
             <div class="col-md-3" style="background-color: #B50391">
                 <i class="fa fa-pencil-square-o fa-2x" style="color:white;margin-top:2vh;"></i>
             </div>
@@ -145,7 +145,7 @@
                 </strong>
             </div>
         </div>
-        <div class="col-sm-12  col-md-3 row user-stats-entry wow animated zoomIn">
+        <div class="col-sm-12  col-md-3 row user-stats-entry wow animated bounceInRight">
             <div class="col-md-3" style="background-color: #039DB5">
                 <i class="fa fa-clock-o fa-2x" style="color:white;margin-top:2vh;"></i>
             </div>
@@ -156,8 +156,8 @@
                 </strong>
             </div>
         </div>            
-        <div class="col-sm-12 col-md-11 user-stats-entry wow animated zoomIn" style="padding:0;" ng-show="dashboard.allResults.length">
-            <div class="container-fluid" style="color: white;background-color: #4188e0;padding-top: 1.5vh;padding-bottom: 1.5vh;">
+        <div class="col-sm-12 col-md-11 user-stats-entry" style="padding:0;" ng-show="dashboard.allResults.length">
+            <div class="container-fluid wow animated zoomIn" style="color: white;background-color: #4188e0;padding-top: 1.5vh;padding-bottom: 1.5vh;">
                 <strong>
                     <h4>My Percentages in Tests</h4>
                 </strong>

@@ -1,4 +1,4 @@
-app.controller('testController',['userService','$location','authService','$timeout','$scope','$q','testService','$routeParams','$window',function(userService,$location,authService,$timeout,$scope,$q,testService,$routeParams,$window){
+app.controller('testController',['userService','$location','authService','$timeout','$scope','$q','testService','$routeParams','$window','socket',function(userService,$location,authService,$timeout,$scope,$q,testService,$routeParams,$window,socket){
 
     var main=this;
     this.pageSize=3;
@@ -11,11 +11,33 @@ app.controller('testController',['userService','$location','authService','$timeo
     if($location.path() == '/admin/tests/'+$routeParams.testId+'/details')
         main.pageSize=1;
 
+    
+
     this.setNavbar = function(){
         $('nav').addClass('second-navbar');
     };
 
     main.setNavbar();
+
+    this.getUser = function(){
+        //Call authService to get User
+        authService.getUser().then(function(data){
+
+            //If error
+            if(data.data.error){
+            } 
+            else
+            {    
+                main.userId=data.data.userId;
+
+                //Tests route emit
+                if($location.path()=='/user/tests/all')
+                    socket.emit('on-tests',main.userId);
+            }          
+        });
+    };
+
+    main.getUser();
 
 
     //Calculate number of page for page filter
@@ -138,10 +160,8 @@ app.controller('testController',['userService','$location','authService','$timeo
         var main1=this;
         if(valid){
 
-            console.log(main1.testData);
             //Call test service for new test
             testService.create(main1.testData).then(function(data){
-                console.log('in service');
                 //Remove loader
                 main.loading = false;
                 if(data.data.error)
@@ -252,7 +272,6 @@ app.controller('testController',['userService','$location','authService','$timeo
         var main1=this;
         main.loading = true;
         main.errorMessage=false;
-        console.log(main1.questionEditData);
         
         if(valid){
 
@@ -289,7 +308,6 @@ app.controller('testController',['userService','$location','authService','$timeo
 
     //Delete test
     this.deleteTest = function(id){
-
         //Call test service
         testService.deleteTest(id).then(function(data){
             if(data.data.error)
@@ -325,7 +343,8 @@ app.controller('testController',['userService','$location','authService','$timeo
                     main.questionDeleteSuccessMessage=data.data.message;
                     toastr.success(main.questionDeleteSuccessMessage) ;
                     main.getTestById();
-                    main.currentPage = main.currentPage - 1;                  
+                    if(main.currentPage!=0)
+                    main.currentPage = main.currentPage - 1;               
                 }
         });
     };

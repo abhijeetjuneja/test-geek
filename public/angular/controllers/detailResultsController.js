@@ -1,4 +1,4 @@
-app.controller('detailResultsController',['$http','userService','$location','authService','$timeout','$scope','$q','testService','$routeParams',function($http,userService,$location,authService,$timeout,$scope,$q,testService,$routeParams){
+app.controller('detailResultsController',['$http','userService','$location','authService','$timeout','$scope','$q','testService','$routeParams','socket',function($http,userService,$location,authService,$timeout,$scope,$q,testService,$routeParams,socket){
     $scope.query={};
     var main=this;
     this.reverse=false;
@@ -21,6 +21,28 @@ app.controller('detailResultsController',['$http','userService','$location','aut
     };
 
     main.setNavbar();
+
+    
+
+    this.getUser = function(){
+        //Call authService to get User
+        authService.getUser().then(function(data){
+
+            //If error
+            if(data.data.error){
+            } 
+            else
+            {    
+                main.userId=data.data.userId;
+
+                //Result route emit
+                if($location.path()=='/results/'+$routeParams.resultId)
+                    socket.emit('on-result',main.result.userId);
+            }          
+        });
+    };
+
+    main.getUser();
 
 
     //Plot doughnut graph

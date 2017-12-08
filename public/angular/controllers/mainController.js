@@ -1,4 +1,4 @@
-app.controller('mainController',['userService','authService','tokenService','$location','$timeout','$scope','$q','$rootScope','$interval','$window','$route','testService','$routeParams',function(userService,authService,tokenService,$location,$timeout,$scope,$q,$rootScope,$interval,$window,$route,testService,$routeParams){
+app.controller('mainController',['userService','authService','tokenService','$location','$timeout','$scope','$q','$rootScope','$interval','$window','$route','testService','$routeParams','socket',function(userService,authService,tokenService,$location,$timeout,$scope,$q,$rootScope,$interval,$window,$route,testService,$routeParams,socket){
     
     var main=this;
     main.load=false;
@@ -51,6 +51,8 @@ app.controller('mainController',['userService','authService','tokenService','$lo
         if($location.path() == '/')
             main.setNavbar();
 
+        
+
         //If logged in
         if(authService.isLoggedIn()) {
 
@@ -70,17 +72,15 @@ app.controller('mainController',['userService','authService','tokenService','$lo
 
                     //Set logged in as false
                     main.loggedIn=false;
-                    console.log("not logged in");
+                    $location.path('/');
                 } 
                 else
                 {    
                     //Set logged in as true
                     main.loggedIn=true;
-                    console.log("logged in");
 
                     //Save user data
                     main.name= data.data.firstName + ' ' + data.data.lastName;
-                    console.log(data.data);
                     main.email=data.data.email;
                     if(main.email == 'admin@geektest.com')
                         main.admin = true;
@@ -88,6 +88,7 @@ app.controller('mainController',['userService','authService','tokenService','$lo
                         main.admin = false;
                     main.mobile=data.data.mobile;
                     main.userId=data.data.userId;
+                    socket.emit('came-online',main.userId); 
 
                     //Load page
                     main.load=true;
@@ -99,7 +100,6 @@ app.controller('mainController',['userService','authService','tokenService','$lo
         {
             //Set logged in as false
             main.loggedIn=false;
-            console.log("not logged in");
             main.name = '';
 
             //Load page
@@ -270,7 +270,7 @@ app.controller('mainController',['userService','authService','tokenService','$lo
         //Call authservice for logging out
         authService.logout();
         
-        console.log("logged out");
+
         $location.path('/');
         $window.location.reload();
         //Reset form

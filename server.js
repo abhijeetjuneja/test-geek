@@ -5,12 +5,13 @@ var io = require('socket.io')(http);
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 var mongoose    = require('mongoose');
-var passport	= require('passport');
+var passport  = require('passport');
 var responseGenerator = require('./libs/responseGenerator');
 var socialPassport = require('./middlewares/passport')(app, passport);
-
+var port        = process.env.PORT || 3000;
 var path = require ('path');
-var cors = require('cors')
+var cors = require('cors');
+var users=[];
 app.use(express.static(path.join(__dirname, '/public')));
 // get our request parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -79,7 +80,96 @@ fs.readdirSync('./app/controllers').forEach(function(file){
 // Use the passport package in our application
 app.use(passport.initialize());
 
- 
+
+io.on('connection', function(socket){  
+    
+    //Add online
+    socket.on('came-online',function(data){
+
+      //Check if user exists
+      if(users.indexOf(data)==-1)
+      {
+        socket.userId = data;
+        users.push(data);
+        io.emit('get-online',users);
+      }
+    }); 
+
+    //Listener for test start
+    socket.on('test-started', function(data){
+
+      //Emit started test
+      socket.broadcast.emit('started-test', data);
+
+    });
+
+    //Listener for answer
+    socket.on('answered-question', function(data){
+      //Emit answer
+      socket.broadcast.emit('answer', data);
+
+    });
+
+    //Listener for test finish
+    socket.on('finish-test', function(data){
+      //Emit finish
+      socket.broadcast.emit('finish', data);
+
+    });
+
+    //Listener for clearing screen
+    socket.on('clear-screen', function(data){
+      //Emit clear screen
+      socket.broadcast.emit('clear', data);
+
+    });
+
+    //Listener for dashboard route
+    socket.on('on-dashboard', function(data){
+      //Emit dashboard route
+      socket.broadcast.emit('dashboard',data);
+
+    });
+
+    //Listener for result route
+    socket.on('on-result', function(data){
+      //Emit result route
+      socket.broadcast.emit('result',data);
+
+    });
+
+    //Listener for tests route
+    socket.on('on-tests', function(data){
+      //Emit test route
+      socket.broadcast.emit('tests',data);
+
+    });
+
+    //Listener for test route
+    socket.on('on-test', function(data){
+      //Emit for test route
+      socket.broadcast.emit('test',data);
+
+    });
+
+    //Listener for already online
+    socket.on('already-online', function(a,send){  
+
+      //Send online users
+      send(users);
+   });
+
+   
+    //Listener for disconnect
+    socket.on('disconnect', function(){  
+
+      //Remove user
+      users.splice(users.indexOf(socket.userId), 1);  
+      io.emit('get-online',users);
+   });  
+ });
+
+
 // bundle our routes
 var apiRoutes = express.Router();
 
@@ -96,9 +186,8 @@ app.use(function(err,req,res,next){
     }  
 });
  
-var port = process.env.PORT || 3000;
+ 
 // Start the server
-app.listen(port,function(){
+http.listen(port,function(){
     console.log("Server running on port "+port);
 });
-
