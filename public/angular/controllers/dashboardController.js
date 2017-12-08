@@ -92,7 +92,7 @@ app.controller('dashboardController',['$http','userService','$location','authSer
 
     //Draw percentage graph
     this.drawGraph = function(){
-        if(main.testNames != null && main.percentages !=null)
+        if(main.testNames.length !=null && main.testNames.length == main.allResults.length && main.percentages !=null && main.percentages.length == main.allResults.length)
         main.myChart = new Chart(main.ctx,{
             type:'line',
             data:{
@@ -192,6 +192,8 @@ app.controller('dashboardController',['$http','userService','$location','authSer
                             {
                                 //Set error message
                                 main.errorMessage=data.data.message;
+                                main.testNames.push(main.allResults[main.index].test.testName);    
+                                main.index++; 
                             }
                             else
                             {   
@@ -203,7 +205,7 @@ app.controller('dashboardController',['$http','userService','$location','authSer
                         });  
                     }
                     $q.all(main.promises).then(function(){
-                        
+                        console.log(main.allResults);
                     });
                 //Get all tickets
                 }
