@@ -192,7 +192,7 @@ app.controller('dashboardController',['$http','userService','$location','authSer
                             {
                                 //Set error message
                                 main.errorMessage=data.data.message;
-                                main.testNames.push(main.allResults[main.index].test.testName);    
+                                main.testNames.push(null);    
                                 main.index++; 
                             }
                             else
