@@ -40,13 +40,6 @@ app.controller('dashboardController',['$http','userService','$location','authSer
         return 'Track(Offline)';
     };
 
-    //Resize chart on orientation change
-    $( window ).resize(function() {
-        if(main.testsTaken!=0)
-        main.myChart.destroy();
-        main.drawGraph();
-
-    });
 
     //Calculate number of page for page filter
     this.numberOfPages=function(l){
@@ -146,6 +139,7 @@ app.controller('dashboardController',['$http','userService','$location','authSer
             main.incorrectAnswers = main.incorrectAnswers + results[i].incorrectAnswers;
             main.unattempted = main.unattempted + results[i].unattempted;
             main.percentages[i] = results[i].testPercentage;
+            main.testNames[i] = results[i].testName;
             main.colors[i]=main.getRandomColor();
         }
 
@@ -182,32 +176,6 @@ app.controller('dashboardController',['$http','userService','$location','authSer
                     //Call calculate stats function
                     main.calculateStats(main.allResults);
 
-                    for(var i=0;i<main.allResults.length;i++)
-                    {
-                        //Call test service to get test by id
-                        main.promises[i]=testService.getTestById(main.allResults[i].testId).then(function(data){
-                            //Set loading to false
-                            main.loading = false;
-                            if(data.data.error)
-                            {
-                                //Set error message
-                                main.errorMessage=data.data.message;
-                                main.testNames.push(null);    
-                                main.index++; 
-                            }
-                            else
-                            {   
-                                //Push test data into results array
-                                main.allResults[main.index].test=data.data.data;
-                                main.testNames.push(main.allResults[main.index].test.testName);    
-                                main.index++;                   
-                            }
-                        });  
-                    }
-                    $q.all(main.promises).then(function(){
-                        console.log(main.allResults);
-                    });
-                //Get all tickets
                 }
 
                 //If not tests taken
