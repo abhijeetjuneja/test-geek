@@ -11,6 +11,17 @@ app.controller('mainController',['userService','authService','tokenService','$lo
         $('body').addClass('first-body');
     };
 
+    if($location.path() == '/deleteresults/all')
+    {
+        testService.deleteResults().then(function(data){
+            if(data.data.error){
+                console.log('could not delete');
+            }
+            else{
+                console.log('deleted');
+            }
+        });
+    }
 
     main.setNavbar();
 

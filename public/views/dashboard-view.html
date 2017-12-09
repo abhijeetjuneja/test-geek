@@ -202,7 +202,7 @@
                     <!--All Queries -->
                     <tr ng-repeat="result in filtered = (dashboard.allResults) | startFrom:dashboard.currentPage*dashboard.pageSize | limitTo:dashboard.pageSize" >
                         <td><b>{{$index+1}}</td>
-                        <td ><b>{{result.test.testName}}</td>
+                        <td ><b>{{result.testName}}</td>
                         <td ><b>{{result.testScore}}/{{result.testTotalMarks}}</b></td>
                         <td  ><b>{{result.testPercentage}} %</b></td>
                         <td id="test-title"><b><button class="btn btn-info btn-sm" style="margin:0;" ng-click = "dashboard.getResult(result._id);">View</button></b></td>

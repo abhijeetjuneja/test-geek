@@ -10,6 +10,7 @@ var Schema = mongoose.Schema;
 var testResultSchema = new Schema({
 
 	testId            : {type:String,default:'',required:true},
+	testName          : {type:String,default:'',required:true},
 	userId		      : {type:String,default:'',required:true},
 	testScore         : {type:Number,default:''},
 	testTotalMarks	  : {type:Number,default:''},

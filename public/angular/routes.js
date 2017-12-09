@@ -95,6 +95,11 @@ app.config(['$routeProvider','$locationProvider', function($routeProvider,$locat
             controllerAs    : 'detail' ,
             authenticated   :  true 
         })
+        .when('/deleteresults/all',{
+            // location of the template
+            templateUrl     : 'views/delete-all-view.html',
+            authenticated   :  true 
+        })
         .when('/user/tests/all',{
             // location of the template
             templateUrl     : 'views/user-all-tests-view.html',

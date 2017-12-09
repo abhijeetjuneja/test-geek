@@ -208,10 +208,11 @@ module.exports.controllerFunction = function(app) {
     testRouter.post('/:testId/results/create',function(req,res){
 
         //Verify body parameters
-        if(req.body.testScore !=undefined && req.body.testPercentage !=undefined && req.body.correctAnswers!=undefined && req.body.incorrectAnswers!=undefined && req.body.testTotalMarks!=undefined && req.body.timeTaken!=undefined && req.body.unattempted != undefined){
+        if(req.body.testScore !=undefined && req.body.testPercentage !=undefined && req.body.correctAnswers!=undefined && req.body.incorrectAnswers!=undefined && req.body.testTotalMarks!=undefined && req.body.timeTaken!=undefined && req.body.unattempted != undefined && req.body.testName != undefined){
 
             var newTestResult= new testResultModel({
                 testId              : req.params.testId,
+                testName            : req.body.testName,
                 userId              : req.body.userId,
                 testScore           : req.body.testScore,
                 testTotalMarks      : req.body.testTotalMarks,
@@ -495,7 +496,7 @@ module.exports.controllerFunction = function(app) {
 
 
     //Delete all results
-    testRouter.post('/results/all/delete',function(req,res){
+    testRouter.post('/results/delete/all',function(req,res){
         
         //Remove test result
         testResultModel.remove(function(err,test){

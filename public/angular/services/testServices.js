@@ -72,6 +72,11 @@ app.factory('testService',function allData($http){
         return $http.post('/tests/delete/'+testId);
     };
 
+    //Factory to delete results
+    testFactory.deleteResults = function(){
+        return $http.post('/tests/results/delete/all');
+    };
+
     return testFactory;
 
 });
