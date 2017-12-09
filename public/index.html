@@ -36,37 +36,37 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <!-- Links -->
-            <ul class="navbar-nav ml-auto " ng-cloak ng-if="main.load">
-                <li class="nav-item"  ng-if="!main.loggedIn">
+            <ul class="navbar-nav ml-auto " >
+                <li class="nav-item"  ng-cloak ng-if="!main.loggedIn">
                     <a class="nav-link" href="#steps"><strong>Why GeekTest?</strong></a>
                 </li>
-                <li class="nav-item" ng-if="!main.loggedIn">
+                <li class="nav-item" ng-cloak ng-if="!main.loggedIn">
                     <a class="nav-link" href="#features"  ><strong>Features</strong></a>
                 </li>
 
                 <!-- Trigger for login modal -->
-                <li class="nav-item"  ng-if="!main.loggedIn" >
+                <li class="nav-item"  ng-cloak ng-if="!main.loggedIn" >
                     <!-- Show if not logged in -->
                     <a class="nav-link" data-toggle="modal" data-target="#modalLoginForm" ><strong>Login/Signup</strong></a>
                 </li>
                 <!-- Trigger for login modal -->
-                <li class="nav-item"  ng-if="main.loggedIn && !main.admin" >
+                <li class="nav-item"  ng-cloak ng-if="main.loggedIn && !main.admin" >
                     <!-- Show if not logged in -->
                     <a class="nav-link" href = "/user/tests/all" ><strong><i class="fa fa-plus-circle" aria-hidden="true"></i> Take A Test</strong></a>
                 </li>
-                <li class="nav-item"  ng-if="main.loggedIn && main.admin" >
+                <li class="nav-item"  ng-cloak ng-if="main.loggedIn && main.admin" >
                     <!-- Show if not logged in -->
                     <a class="nav-link" href = "/tests/create" ><strong><i class="fa fa-plus-circle" aria-hidden="true"></i> Create a Test</strong></a>
                 </li>
-                <li class="nav-item"  ng-if="main.loggedIn && main.admin" >
+                <li class="nav-item"  ng-cloak ng-if="main.loggedIn && main.admin" >
                     <!-- Show if not logged in -->
                     <a class="nav-link" href = "/admin/users/all" ><strong>Users</strong></a>
                 </li>
-                <li class="nav-item"  ng-if="main.loggedIn && main.admin" >
+                <li class="nav-item"  ng-cloak ng-if="main.loggedIn && main.admin" >
                     <!-- Show if not logged in -->
                     <a class="nav-link" href = "/admin/tests/view" ><strong>Tests</strong></a>
                 </li>
-                <li class="nav-item" ng-if="main.loggedIn">
+                <li class="nav-item" ng-cloak ng-if="main.loggedIn">
                     <!-- Show if logged in -->
                     <a class="nav-link"  href="/dashboard" ><strong><i class="fa fa-table" aria-hidden="true"></i> Dashboard</strong></a>
                 </li>
@@ -76,7 +76,7 @@
                 </li>
                 <!-- Basic dropdown -->
                 <!-- Show if logged in -->
-                <div class="btn-group wow animated zoomIn logout" data-wow-delay="0.3s" ng-if="main.loggedIn">
+                <div class="btn-group wow animated zoomIn logout" data-wow-delay="0.3s" ng-cloak ng-if="main.loggedIn">
                     <button class="btn btn-mdb btn-sm dropdown-toggle user-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="images/user.png" style="height: 15px;width:15px;">&nbsp<strong>{{main.name}}</strong></button>
 
                     <div class="dropdown-menu wow animated zoomIn">
