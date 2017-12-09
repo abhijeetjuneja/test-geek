@@ -140,7 +140,7 @@ app.controller('liveTestController',['$location','authService','$timeout','$scop
         main.testScore = main.correct*main.testData.marksPerQuestion;
         main.outOf  = main.testData.questions.length*main.testData.marksPerQuestion;
         main.percentage = ((main.testScore/main.outOf)*100).toFixed(2);
-        main.testData = {testId:main.testId,userId:main.userId,testScore:main.testScore,testTotalMarks:main.outOf,testPercentage:main.percentage,incorrectAnswers:main.incorrect,correctAnswers:main.correct,unattempted:main.unattempted,timeTaken:main.testTime};
+        main.testData = {testId:main.testId,userId:main.userId,testScore:main.testScore,testTotalMarks:main.outOf,testPercentage:main.percentage,incorrectAnswers:main.incorrect,correctAnswers:main.correct,unattempted:main.unattempted,timeTaken:main.testTime,testName:main.testData.testName};
 
         //Call result function
         main.createResult();

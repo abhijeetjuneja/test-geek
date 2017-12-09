@@ -23,7 +23,7 @@
 <body ng-controller="mainController as main" ng-cloak ng-show="main.load">
 
     <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-light white fixed-top scrolling-navbar" >
+    <nav class="navbar navbar-expand-lg navbar-light white fixed-top scrolling-navbar" ng-cloak ng-show="main.load">
 
         <!-- Navbar brand -->
         <a class="navbar-brand" href="/" style="color: #055865!important;"><strong>GeekTest <i class="fa fa-pencil-square-o"></i></strong></a>
@@ -36,7 +36,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <!-- Links -->
-            <ul class="navbar-nav ml-auto " ng-cloak ng-if="main.load">
+            <ul class="navbar-nav ml-auto ">
                 <li class="nav-item"  ng-if="!main.loggedIn">
                     <a class="nav-link" href="#steps"><strong>Why GeekTest?</strong></a>
                 </li>
